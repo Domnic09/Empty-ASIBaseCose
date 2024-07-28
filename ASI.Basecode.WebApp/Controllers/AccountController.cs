@@ -83,8 +83,15 @@ namespace ASI.Basecode.WebApp.Controllers
         {
             this._session.SetString("HasSession", "Exist");
 
+            //User user = null;
+
+            //await this._signInManager.SignInAsync(user);
+            //this._session.SetString("UserName", model.UserId);
+            //return RedirectToAction("Index", "Home");
+
             User user = null;
             var loginResult = _userService.AuthenticateUser(model.UserId, model.Password, ref user);
+            //var loginResult = LoginResult.Success;
             if (loginResult == LoginResult.Success)
             {
                 // 認証OK
@@ -99,6 +106,7 @@ namespace ASI.Basecode.WebApp.Controllers
                 return View();
             }
             return View();
+
         }
 
         [HttpGet]
