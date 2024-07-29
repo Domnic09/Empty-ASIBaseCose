@@ -36,7 +36,16 @@ namespace ASI.Basecode.Data.Repositories
 
         public void RemovePerson(Person person)
         {
-            this.GetDbSet<Person>().Remove(person);
+
+            var pers = GetPerson(person.Id);
+            this.GetDbSet<Person>().Remove(pers);
+            UnitOfWork.SaveChanges();
+        }
+
+       public void UpdatePerson(Person person)
+        {
+            var pers = GetPerson(person.Id);
+            this.GetDbSet<Person>().Update(pers);
             UnitOfWork.SaveChanges();
         }
        

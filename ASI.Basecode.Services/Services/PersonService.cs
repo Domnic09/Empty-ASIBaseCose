@@ -42,36 +42,65 @@ namespace ASI.Basecode.Services.Services
             }; 
             _repository.AddPerson(person);
         }
+        public void EditPerson(PersonViewModel personViewModel)
+        {
+            Person person = new()
+            {
+                Id = personViewModel.Id,
+                Name = personViewModel.Name,
+                Age = personViewModel.Age,
+                Address = personViewModel.Address,
+            };
+            _repository.UpdatePerson(person);
+        }
+        //public bool EditPerson(PersonViewModel personViewModel)
+        //{
+        //    Person person = _repository.GetPerson(personViewModel.Id);
+        //    if (person != null)
+        //    {
+        //        person.Id = personViewModel.Id;
+        //        person.Name = personViewModel.Name;
+        //        person.Age = personViewModel.Age;
+        //        person.Address = personViewModel.Address;
+        //        _repository.UpdatePerson(person);
+        //        return true;
+        //    }
+        //    return false;
+        //}
+
+        //public bool EditPerson(string id)
+        //{
+        //    Person pers = _repository.GetPerson(id);
+
+        //    if (pers != null)
+        //    {
+        //        Person person = new()
+        //        {
+        //            Id = id,
+        //            Name = pers.Name,
+        //            Age = pers.Age,
+        //            Address = pers.Address,
+        //        };
+        //        _repository.UpdatePerson(person);
+        //        return true;
+        //    }
+        //    return false;
+        //}
+
         public bool DeletePerson(string id)
         {
             Person person = _repository.GetPerson(id);
-            if(person != null)
+            if (person != null)
             {
                 _repository.RemovePerson(person);
                 return true;
             }
             return false;
 
-
         }
+
         public Person Details(string id)
         {
-            //Person person = _repository.GetPerson(personViewModel.Id);
-            //if (person != null)
-            //{
-            //    _repository.GetPerson(person.Id);
-            //    return true;
-            //}
-            //return false;
-            //Person person = new()
-            //{
-            //    Id = Guid.NewGuid().ToString(),
-            //    Name = personViewModel.Name,
-            //    Age = personViewModel.Age,
-            //    Address = personViewModel.Address,
-            //};
-            
-            //you need to declare void since you are using the method from the repo which is naka return
             return _repository.GetPerson(id);
         }
 

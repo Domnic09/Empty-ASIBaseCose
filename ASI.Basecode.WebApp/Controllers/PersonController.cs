@@ -1,4 +1,5 @@
-﻿using ASI.Basecode.Services.Interfaces;
+﻿using ASI.Basecode.Data.Models;
+using ASI.Basecode.Services.Interfaces;
 using ASI.Basecode.Services.ServiceModels;
 using ASI.Basecode.WebApp.Mvc;
 using AutoMapper;
@@ -12,6 +13,7 @@ namespace ASI.Basecode.WebApp.Controllers
     public class PersonController : ControllerBase<PersonController>
     {
         public readonly IPersonService _personService;
+        public readonly IMapper _personMapper;
         public PersonController(IHttpContextAccessor httpContextAccessor,
                               ILoggerFactory loggerFactory,
                               IConfiguration configuration,
@@ -20,6 +22,7 @@ namespace ASI.Basecode.WebApp.Controllers
         {
 
             _personService = personService;
+            _personMapper = mapper;
         }
         
   
@@ -40,25 +43,29 @@ namespace ASI.Basecode.WebApp.Controllers
             _personService.AddPerson(personViewModel);
             return RedirectToAction("Index");
         }
+
         [HttpGet]
-        public IActionResult Delete( )
+        public IActionResult Update(string id)
         {
-            return View();
+            var person = _personService.Details(id);
+            return View(person);  
         }
-        //[HttpPost]
-        //public IActionResult Delete(string Id)
-        //{
-
-
-        //    _personService.DeletePerson(Id);
-        //    //_personService.DeletePerson(personViewModel);
-        //    return RedirectToAction("Index");
-        //}
         [HttpPost]
-        public IActionResult Delete(PersonViewModel personViewModel)
+        public IActionResult UpdateNow(PersonViewModel personViewModel)
+        {
+            //var person = _personService.Details(id);
+            //PersonViewModel personViewModel = new PersonViewModel();
+            //if (person != null)
+            //{
+                _personService.EditPerson(personViewModel);
+            //}
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Delete(string id)
         {
 
-            bool isDeleted = _personService.DeletePerson(personViewModel);
+            bool isDeleted = _personService.DeletePerson(id);
 
             if (isDeleted)
             {
@@ -68,14 +75,24 @@ namespace ASI.Basecode.WebApp.Controllers
             return NotFound();
 
         }
+        //[HttpPost]
+        //public IActionResult Update(PersonViewModel personViewModel)
+        //{
+        //   bool isUpdated = _personService.EditPerson(personViewModel);
+        //    if (isUpdated)
+        //    {
+        //        return RedirectToAction("Index");
+        //    }
+        //    return NotFound();
+        //}
         [HttpGet]
         public IActionResult Details(string id)
         {
             var person = _personService.Details(id);
-            if (person == null)
-            {
-                return NotFound();
-            }
+            //if (person == null)
+            //{
+            //    return NotFound();
+            //}
 
             return View(person);
         }

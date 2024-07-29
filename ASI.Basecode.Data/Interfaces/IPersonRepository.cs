@@ -13,5 +13,6 @@ namespace ASI.Basecode.Data.Interfaces
         public void AddPerson(Person person);
         public Person GetPerson(string Id);
         public void RemovePerson(Person person);
+        public void UpdatePerson(Person person);
     }
 }
